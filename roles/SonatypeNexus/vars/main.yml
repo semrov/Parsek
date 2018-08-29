@@ -1,0 +1,14 @@
+---
+# vars file for SonatypeNexus
+synced_dir_path: /vagrant
+jdk_archive: jdk-8u181-linux-x64.tar.gz
+jdk_dir: jdk1.8.0_181
+usr_dir_path: /usr/local
+java_home: '{{ usr_dir_path }}/{{ jdk_dir }}'
+jre_home: '{{ java_home }}/jre'
+export_java_home: 'JAVA_HOME={{ java_home }}'
+export_jre_home: 'JRE_HOME={{ jre_home }}'
+export_path_java: 'PATH=$PATH:{{ java_home }}/bin:{{ jre_home }}/bin'
+
+
+...
