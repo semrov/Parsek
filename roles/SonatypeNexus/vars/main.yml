@@ -19,7 +19,7 @@ export_path_java: 'PATH=$PATH:{{ java_home }}/bin:{{ jre_home }}/bin'
 #Vars for Nexus Repository Manager 3 configuration
 nexus_archive: nexus-3.13.0-01-unix.tar.gz
 nexus_dir: nexus3
-nexus_home: '{{ usr_dir_path }}/{{ nexus_dir }}}'
+nexus_home: '{{ usr_dir_path }}/{{ nexus_dir }}'
 nexus_app_dir: nexus-3.13.0-01
 nexus_data_dir: sonatype-work
 nexus_user: Nexus
