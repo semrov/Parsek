@@ -1,5 +1,11 @@
 ---
 
+#Create directory to install Nexus Repository Manager
+- name: Create directory '{{ nexus_home }}'
+  file:
+    path: '{{ nexus_home }}'
+    state: directory
+
 #Unpack Nexus archive
 - name: Unarchive and install Nexus Repository Manager 3 OSS package
   unarchive: 
