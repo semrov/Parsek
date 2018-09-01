@@ -31,18 +31,15 @@
 - name: set java_home environment variable
   lineinfile:
     path: /etc/bash.bashrc
-    regex: '^JAVA_HOME='
-    line: '{{ export_java_home }}'
+    line: 'export {{ export_java_home }}'
 - name: set jre_home environment variable
   lineinfile:
     path: /etc/bash.bashrc
-    regex: '^JRE_HOME='
-    line: '{{ export_jre_home }}'
+    line: 'export {{ export_jre_home }}'
 - name: Update PATH environment variable with Java
   lineinfile:
     path: /etc/bash.bashrc
-    regex: '^{{ export_path_java }}'
-    line: '{{ export_path_java }}'
+    line: 'export {{ export_path_java }}'
 
 
 

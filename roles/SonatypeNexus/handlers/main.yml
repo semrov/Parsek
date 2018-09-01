@@ -1,2 +1,18 @@
 ---
 # handlers file for SonatypeNexus
+
+- name: Reload sytemd
+  command: systemctl daemon-reload
+
+- name: Enable Nexus service
+  service:
+    name: nexus.service
+    enabled: yes
+
+- name: Start Nexus service
+  service: 
+    name: nexus.service
+    state: started
+
+...
+

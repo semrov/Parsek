@@ -3,5 +3,6 @@
 
 # Install Java 8 and set symbolic links and environment variables
 - import_tasks: java.yml
+- import_tasks: nexus.yml
 
 ...
