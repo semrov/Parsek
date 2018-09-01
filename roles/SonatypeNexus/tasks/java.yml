@@ -30,15 +30,15 @@
 # Set the Java environment variables
 - name: set java_home environment variable
   lineinfile:
-    path: /etc/bash.bashrc
+    path: /etc/bashrc
     line: 'export {{ export_java_home }}'
 - name: set jre_home environment variable
   lineinfile:
-    path: /etc/bash.bashrc
+    path: /etc/bashrc
     line: 'export {{ export_jre_home }}'
 - name: Update PATH environment variable with Java
   lineinfile:
-    path: /etc/bash.bashrc
+    path: /etc/bashrc
     line: 'export {{ export_path_java }}'
 
 
