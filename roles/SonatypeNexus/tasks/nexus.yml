@@ -46,7 +46,7 @@
 - name: Configure Nexus  Repository Manager to run under {{ nexus_user }} user 
   lineinfile:
     path: '{{ nexus_home }}/{{ nexus_app_dir }}/bin/nexus.rc'
-    regex: '^run_as_user='
+    regexp: '^run_as_user='
     line: 'run_as_user={{ nexus_user }}'
 
 #Change owner of Nexus Repository Manager directory to Nexus user
