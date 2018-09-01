@@ -1,0 +1,21 @@
+---
+
+#Unpack Nexus archive
+- name: Unarchive and install Nexus Repository Manager 3 OSS package
+  unarchive: 
+    src: '{{ synced_dir_path }}/{{ nexus_archive }}'
+    dest: '{{ usr_dir_path }}'
+
+
+
+
+# Change listening port
+- name: "Set Nexus interface to listen on port {{ nexus_http_port }} "
+  lineinfile:
+    path: '{{ usr_dir_path }}/{{ nexus_app_dir }}/etc/nexus.properties'
+    regexp: '^application-port='
+    line: 'application-port={{ nexus_http_port }}'
+  notify:
+
+
+...
