@@ -1,0 +1,27 @@
+Listen {{ tls_port }}
+  
+ProxyRequests Off
+ProxyPreserveHost On
+  
+<VirtualHost *:{{ tls_port }}>
+  SSLEngine on
+  
+  SSLCertificateFile "example.pem"
+  SSLCertificateKeyFile "example.key"
+  
+  AllowEncodedSlashes NoDecode
+
+  ServerName {{ ansible_eth1.ipv4.address }}
+  ProxyPass / http://localhost:{{ nexus_http_port }}/ nocanon
+  ProxyPassReverse / http://localhost:{{ nexus_http_port }}/
+  RequestHeader set X-Forwarded-Proto "https"
+  
+  ErrorLog logs/repo.example.com/nexus/error.log
+  CustomLog logs/repo.example.com/nexus/access.log common
+</VirtualHost>
+
+# Redirect HTTP to HTTPS automatically
+<VirtualHost *:80>
+        ServerName {{ ansible_eth1.ipv4.address }}
+        Redirect "/" "{{ ansible_eth1.ipv4.address }}:{{ tls_port }}"
+</VirtualHost>

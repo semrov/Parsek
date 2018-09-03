@@ -1,0 +1,83 @@
+---
+
+# get ip address of the node
+- name:  Get IP address at eth1
+  setup:
+    filter: ansible_eth1.ipv4.address
+
+#Install Apache server with mod_ssl and mod_headers
+- name: Install the latest version Apache web server
+  yum: 
+    name: '{{ item }}'
+    state: latest
+    update_cache: yes
+  loop:
+    - httpd
+    - mod_ssl
+
+#Find and comment DocumentRoot line in /etc/httpd/conf/httpd.conf
+- name: 'Remove DocumentRoot line in Apache server {{ apache_httpd_conf }}'
+  lineinfile:
+    path: '{{ apache_httpd_conf }}'
+    regexp: '^DocumentRoot='
+    line: '#DocumentRoot="/var/www/html/"'
+    backup: yes
+
+#Copy https.conf.j2 tempate to TLS directory
+- name: Create template based config for HTTPS and copy it into conf.d/
+  template:
+    src: https.conf.j2
+    dest: '{{ apache_home }}/conf.d/https.conf'
+
+
+
+#Add apache user
+#Apache server will run under this user
+- name: 'Create a specific user called {{ apache_user }}, who controls Apache server'
+  user:
+    name: '{{ apache_user }}'
+    comment: Very limited user that only controls Apache Server
+
+
+ 
+
+#Change owner of Apache server directory to Apache user
+- name: 'Change owner o Apache Server directory to {{ apache_user }}'
+  file:
+    dest: '{{ apache_home }}'
+    owner: '{{ apache_user }}'
+    group: '{{ apache_user }}'
+    mode: 0755
+    recurse: yes
+
+- name: Generate a Self Signed OpenSSL certificate
+  openssl_certificate:
+    path: '{{ tls_dir }}/cert.crt'
+    privatekey_path: '{{ tls_dir }}/key.key'
+    csr_path: '{{ tls_dir }}/csr.csr'
+    provider: selfsigned
+    issuer:
+      C: "SLO"
+      ST: "A"
+      L: "LJ"
+      O: "Pasrek"
+      OU: "IT"
+      CN: "{{ ansible_eth1.ipv4.address }}"
+
+
+#Change owner of Apache server directory to Apache user
+- name: 'Change owner o Apache Server directory to {{ apache_user }}'
+  file:
+    dest: '{{ tls_dir }}'
+    owner: '{{ apache_user }}'
+    group: '{{ apache_user }}'
+    mode: 0700
+    recurse: yes
+  notify:
+    - Enable apache server
+    - Start apache server
+
+
+    
+
+...
