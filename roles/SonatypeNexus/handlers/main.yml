@@ -14,5 +14,15 @@
     name: nexus.service
     state: started
 
+- name: Enable apache server
+  service:  
+    name: httpd
+    enabled: yes   
+
+- name: Start apache server
+  service: 
+    name: httpd
+    state: started  
+
 ...
 

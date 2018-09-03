@@ -13,7 +13,7 @@
     dest: '{{ nexus_home }}'
 
 
- Change listening port
+#Change listening port
 - name: "Set Nexus interface to listen on port {{ nexus_http_port }} "
   lineinfile:
     path: '{{ nexus_home }}/{{ nexus_app_dir }}/etc/nexus-default.properties'

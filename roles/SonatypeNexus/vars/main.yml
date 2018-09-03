@@ -26,6 +26,15 @@ nexus_user: Nexus
 nexus_http_port: 8080
 export_nexus_home: 'NEXUS_HOME={{ nexus_home }}'
 
+#Apache server vars
+apache_home: /etc/httpd
+apache_httpd_conf: /etc/httpd/conf/httpd.conf
+apache_user: apache
+
+#TLS configuration vars
+tls_dir: '{{ apache_home }}/tls'
+tls_port: 443
+
 
 
 ...
