@@ -38,8 +38,8 @@
   template:
     src: https.conf.j2
     dest: '{{ apache_home }}/conf.d/https.conf'
-  notify:
-    - ApacheSyntaxChecker
+#  notify:
+#    - ApacheSyntaxChecker
 
 
 
