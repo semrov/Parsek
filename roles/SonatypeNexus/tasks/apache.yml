@@ -57,6 +57,12 @@
     name: python-pip
     state: latest
 
+#Install Python OpenSSL dependencies
+- name: Ensure python OpenSSL dependencies are installed.
+  pip:
+    name: pyOpenSSL
+    state: latest
+
 # Generate an OpenSSL private key (4096 bits, RSA)
 #python-pyOpenSSL library is required 
 - name: Generate an OpenSSL private key
