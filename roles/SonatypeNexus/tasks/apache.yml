@@ -22,7 +22,7 @@
   lineinfile:
     path: '{{ apache_httpd_conf }}'
     regexp: '^DocumentRoot='
-    line: '#DocumentRoot="/var/www/html/"'
+    state: absent
     backup: yes
 
 #Copy https.conf.j2 tempate to TLS directory
