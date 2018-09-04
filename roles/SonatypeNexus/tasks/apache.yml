@@ -14,6 +14,8 @@
   loop:
     - httpd
     - mod_ssl
+  notify:
+    - Enable apache server
 
 #Find and comment DocumentRoot line in /etc/httpd/conf/httpd.conf
 - name: 'Remove DocumentRoot line in Apache server {{ apache_httpd_conf }}'
@@ -28,6 +30,8 @@
   template:
     src: https.conf.j2
     dest: '{{ apache_home }}/conf.d/https.conf'
+  notify:
+    - Apache config syntax check
 
 
 
@@ -97,9 +101,9 @@
     csr_path: '{{ tls_dir }}/csr.csr'
     provider: selfsigned
   notify:
-    - Apache config syntax check
-    - Enable apache server
-    - Start apache server
+    - Restart apache server
+    
+    
 
 #Start the firewalld service
 - name:  Turn on the firewalld service

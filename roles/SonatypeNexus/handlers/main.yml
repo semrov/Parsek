@@ -24,6 +24,13 @@
     name: httpd
     state: started  
 
+
+- name: Restart apache server
+  service: 
+    name: httpd
+    state: restarted 
+
+
 - name: Apache config syntax check
   block:
   - command: apachectl configtest
