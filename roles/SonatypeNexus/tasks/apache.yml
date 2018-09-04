@@ -21,8 +21,16 @@
 - name: 'Remove DocumentRoot line in Apache server {{ apache_httpd_conf }}'
   lineinfile:
     path: '{{ apache_httpd_conf }}'
-    regexp: '^DocumentRoot='
+    regexp: '^DocumentRoot= "/var/www/html"'
     state: absent
+    backup: yes
+
+#Set global ServerName in /etc/httpd/conf/httpd.conf
+- name: 'Set global ServerName line in Apache server'
+  lineinfile:
+    path: '{{ apache_httpd_conf }}'
+    line: 'ServerName {{ ansible_eth1.ipv4.address }}'
+    insertafter: '^#ServerName www.example.com:80'
     backup: yes
 
 #Copy https.conf.j2 tempate to TLS directory
