@@ -97,7 +97,7 @@
     csr_path: '{{ tls_dir }}/csr.csr'
     provider: selfsigned
   notify:
-    - Apache httpd.conf syntax check
+    - Apache config syntax check
     - Enable apache server
     - Start apache server
 

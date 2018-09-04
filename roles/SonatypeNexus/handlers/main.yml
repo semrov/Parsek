@@ -24,7 +24,7 @@
     name: httpd
     state: started  
 
-- name: Apache httpd.conf syntax check
+- name: Apache config syntax check
   block:
   - command: apachectl configtest
     register: syntax
