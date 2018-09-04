@@ -63,6 +63,15 @@
     name: pyOpenSSL
     state: latest
 
+#Create TLS directory to store keys and certs
+- name: 'Create {{ tls_dir }} directory'
+  file:
+    dest: '{{ tls_dir }}'
+    state: directory
+    owner: '{{ apache_user }}'
+    group: '{{ apache_user }}'
+    mode: 0755 
+
 # Generate an OpenSSL private key (4096 bits, RSA)
 #python-pyOpenSSL library is required 
 - name: Generate an OpenSSL private key
