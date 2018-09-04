@@ -19,7 +19,7 @@
     name: httpd
     enabled: yes   
 
-- name: Apache config syntax check
+- name: ApacheSyntaxChecker
   block:
   - command: apachectl configtest
     register: syntax

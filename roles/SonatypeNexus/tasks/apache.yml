@@ -31,7 +31,7 @@
     src: https.conf.j2
     dest: '{{ apache_home }}/conf.d/https.conf'
   notify:
-    - Apache config syntax check
+    - ApacheSyntaxChecker
 
 
 
