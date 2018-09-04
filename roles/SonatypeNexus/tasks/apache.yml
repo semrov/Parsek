@@ -62,7 +62,6 @@
 - name: Generate an OpenSSL private key
   openssl_privatekey:
     path: '{{ tls_dir }}/privkey.pem'
-    cipher: aes256
     owner: '{{ apache_user }}'
     group: '{{ apache_user }}'
     mode: 0600
