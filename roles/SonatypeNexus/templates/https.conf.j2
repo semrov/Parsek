@@ -16,8 +16,8 @@ ProxyPreserveHost On
   ProxyPassReverse / http://localhost:{{ nexus_http_port }}/
   RequestHeader set X-Forwarded-Proto "https"
   
-  ErrorLog logs/repo.example.com/nexus/error.log
-  CustomLog logs/repo.example.com/nexus/access.log common
+  ErrorLog logs/{{ ansible_eth1.ipv4.address }}/nexus/error.log
+  CustomLog logs/{{ ansible_eth1.ipv4.address }}/nexus/access.log common
 </VirtualHost>
 
 # Redirect HTTP to HTTPS automatically
