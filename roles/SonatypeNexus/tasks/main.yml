@@ -2,8 +2,8 @@
 # tasks file for SonatypeNexus
 
 # Install Java 8 and set symbolic links and environment variables
-#- import_tasks: java.yml
-#- import_tasks: nexus.yml
-- import_tasks: apache.yml
+- import_tasks: java.yml
+- import_tasks: nexus.yml
+#- import_tasks: apache.yml
 
 ...

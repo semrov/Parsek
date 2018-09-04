@@ -50,32 +50,65 @@
     mode: 0755
     recurse: yes
 
+#Ansible openssl requires python-pyOpenSSL library to be installed
+#python pip package managment is required to download python-pyOpenSSL
+- name: Install Python2.7 pip package managment
+  yum:
+    name: python-pip
+    state: latest
+
+# Generate an OpenSSL private key (4096 bits, RSA)
+#python-pyOpenSSL library is required 
+- name: Generate an OpenSSL private key
+  openssl_privatekey:
+    path: '{{ tls_dir }}/privkey.pem'
+    cipher: aes256
+    owner: '{{ apache_user }}'
+    group: '{{ apache_user }}'
+    mode: 0600
+
+# Generate an OpenSSL Certificate Signing Request
+- openssl_csr:
+    path: '{{ tls_dir }}/csr.csr'
+    privatekey_path: '{{ tls_dir }}/privkey.pem'
+    common_name: '{{ ansible_eth1.ipv4.address }}'
+    country_name: SI
+    organization_name: Parsek
+    
+#Generate certificate
 - name: Generate a Self Signed OpenSSL certificate
   openssl_certificate:
     path: '{{ tls_dir }}/cert.crt'
-    privatekey_path: '{{ tls_dir }}/key.key'
+    privatekey_path: '{{ tls_dir }}/privkey.key'
     csr_path: '{{ tls_dir }}/csr.csr'
     provider: selfsigned
-    issuer:
-      C: "SLO"
-      ST: "A"
-      L: "LJ"
-      O: "Pasrek"
-      OU: "IT"
-      CN: "{{ ansible_eth1.ipv4.address }}"
-
-
-#Change owner of Apache server directory to Apache user
-- name: 'Change owner o Apache Server directory to {{ apache_user }}'
-  file:
-    dest: '{{ tls_dir }}'
-    owner: '{{ apache_user }}'
-    group: '{{ apache_user }}'
-    mode: 0700
-    recurse: yes
   notify:
+    - Apache httpd.conf syntax check
     - Enable apache server
     - Start apache server
+
+#Open port 80
+- name: Enable http port 80 in iptables firewall
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    match: tcp
+    destination_port: 80
+    jump: ACCEPT
+    comment: Open port 80 - HTTP
+
+#Open https port
+- name: 'Enable https port {{ tls_port }} in iptables firewall'
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    match: tcp
+    destination_port: '{{ tls_port }}'
+    jump: ACCEPT
+    comment: 'Open port {{ tls_port }} - HTTPS'
+
+- name: Saving firewall rules
+  command: iptables-save
 
 
     

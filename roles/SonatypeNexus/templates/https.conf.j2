@@ -7,7 +7,7 @@ ProxyPreserveHost On
   SSLEngine on
   
   SSLCertificateFile "{{ tls_dir }}/cert.crt"
-  SSLCertificateKeyFile "{{ tls_dir }}/key.key"
+  SSLCertificateKeyFile "{{ tls_dir }}/privkey.key"
   
   AllowEncodedSlashes NoDecode
 
@@ -23,5 +23,5 @@ ProxyPreserveHost On
 # Redirect HTTP to HTTPS automatically
 <VirtualHost *:80>
         ServerName {{ ansible_eth1.ipv4.address }}
-        Redirect "/" "{{ ansible_eth1.ipv4.address }}:{{ tls_port }}"
+        Redirect "/" "https://{{ ansible_eth1.ipv4.address }}"
 </VirtualHost>
