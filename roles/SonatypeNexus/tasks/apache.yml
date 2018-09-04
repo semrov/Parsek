@@ -79,7 +79,7 @@
 - name: Generate a Self Signed OpenSSL certificate
   openssl_certificate:
     path: '{{ tls_dir }}/cert.crt'
-    privatekey_path: '{{ tls_dir }}/privkey.key'
+    privatekey_path: '{{ tls_dir }}/privkey.pem'
     csr_path: '{{ tls_dir }}/csr.csr'
     provider: selfsigned
   notify:
@@ -87,28 +87,46 @@
     - Enable apache server
     - Start apache server
 
+#Start the firewalld service
+- name:  Turn on the firewalld service
+  service:
+    name: firewalld
+    state: started
+
+- name: 'Open https port {{ tls_port }} in firewall'
+  firewalld:
+    port: '{{ tls_port }}/tcp'
+    permanent: true
+    state: enabled
+
+- name: Open http port 80 in firewall
+  firewalld:
+    service: http
+    permanent: true
+    state: enabled
+
 #Open port 80
-- name: Enable http port 80 in iptables firewall
-  iptables:
-    chain: INPUT
-    protocol: tcp
-    match: tcp
-    destination_port: 80
-    jump: ACCEPT
-    comment: Open port 80 - HTTP
+#- name: Enable http port 80 in iptables firewall
+#  iptables:
+#    chain: INPUT
+#    protocol: tcp
+#    match: tcp
+#    destination_port: 80
+#    jump: ACCEPT
+#    comment: Open port 80 - HTTP
 
 #Open https port
-- name: 'Enable https port {{ tls_port }} in iptables firewall'
-  iptables:
-    chain: INPUT
-    protocol: tcp
-    match: tcp
-    destination_port: '{{ tls_port }}'
-    jump: ACCEPT
-    comment: 'Open port {{ tls_port }} - HTTPS'
-
-- name: Saving firewall rules
-  command: iptables-save
+#- name: 'Enable https port {{ tls_port }} in iptables firewall'
+#  iptables:
+#   chain: INPUT
+#    protocol: tcp
+#    match: tcp
+#    destination_port: '{{ tls_port }}'
+#    jump: ACCEPT
+#    comment: 'Open port {{ tls_port }} - HTTPS'
+#
+# - name: Saving firewall rules
+#  command: iptables-save
 
 
     
