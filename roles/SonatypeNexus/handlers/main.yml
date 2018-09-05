@@ -38,6 +38,11 @@
     name: httpd
     state: restarted 
 
+- name: Firewall reload rules
+  service: 
+    name: firewalld
+    state: reloaded 
+
 
 
 

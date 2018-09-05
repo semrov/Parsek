@@ -146,6 +146,8 @@
     port: 80/tcp
     permanent: true
     state: enabled
+  notify:
+    - Firewall reload rules
 
 
 
