@@ -33,11 +33,12 @@
     insertafter: '^#ServerName www.example.com:80'
     backup: yes
 
-#Copy https.conf.j2 tempate to TLS directory
+#Copy ssl.conf.j2 tempate to TLS directory
 - name: Create template based config for HTTPS and copy it into conf.d/
   template:
-    src: https.conf.j2
-    dest: '{{ apache_home }}/conf.d/https.conf'
+    src: ssl.conf.j2
+    dest: '{{ apache_home }}/conf.d/ssl.conf'
+    force: yes
 #  notify:
 #    - ApacheSyntaxChecker
 
