@@ -120,28 +120,28 @@
     enabled : yes
     
 #Allow https service
-- name: 'Open https port {{ tls_port }} in firewall'
+- name: 'Allow https service in firewall'
   firewalld:
     service: https
     permanent: true
     state: enabled
 
 #Open tls port
-- name: 'Open https port {{ tls_port }} in firewall'
+- name: 'Open port {{ tls_port }} in firewall'
   firewalld:
     port: '{{ tls_port }}/tcp'
     permanent: true
     state: enabled
 
 #Allow http service
-- name: Open http port 80 in firewall
+- name: Allow http service in firewall
   firewalld:
     service: http
     permanent: true
     state: enabled
 
 #Open http port 80
-- name: Open http port 80 in firewall
+- name: Open port 80 in firewall
   firewalld:
     port: 80
     permanent: true
