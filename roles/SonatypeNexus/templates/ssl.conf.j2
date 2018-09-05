@@ -65,11 +65,13 @@ ProxyPreserveHost On
 #ServerName www.example.com:443
 ServerName {{ ansible_eth1.ipv4.address }}:{{ tls_port }}
 
+AllowEncodedSlashes NoDecode
+
 ProxyPass / http://localhost:{{ nexus_http_port }}/ nocanon
 ProxyPassReverse / http://localhost:{{ nexus_http_port }}/
 RequestHeader set X-Forwarded-Proto "https"
 
-AllowEncodedSlashes NoDecode
+
 
 # Use separate log files for the SSL virtual host; note that LogLevel
 # is not inherited from httpd.conf.

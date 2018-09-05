@@ -112,48 +112,29 @@
   notify:
     - Restart apache server
     
-    
-
-#Start the firewalld service
+ #Enable and start the firewalld service
 - name:  Turn on the firewalld service
   service:
     name: firewalld
     state: started
-
+    enabled : yes
+    
+#Open https port 443
 - name: 'Open https port {{ tls_port }} in firewall'
   firewalld:
     port: '{{ tls_port }}/tcp'
+    service: https
     permanent: true
     state: enabled
 
+#Opem hhtp port 80
 - name: Open http port 80 in firewall
   firewalld:
+    port: 80
     service: http
     permanent: true
     state: enabled
 
-#Open port 80
-#- name: Enable http port 80 in iptables firewall
-#  iptables:
-#    chain: INPUT
-#    protocol: tcp
-#    match: tcp
-#    destination_port: 80
-#    jump: ACCEPT
-#    comment: Open port 80 - HTTP
-
-#Open https port
-#- name: 'Enable https port {{ tls_port }} in iptables firewall'
-#  iptables:
-#   chain: INPUT
-#    protocol: tcp
-#    match: tcp
-#    destination_port: '{{ tls_port }}'
-#    jump: ACCEPT
-#    comment: 'Open port {{ tls_port }} - HTTPS'
-#
-# - name: Saving firewall rules
-#  command: iptables-save
 
 
     
