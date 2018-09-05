@@ -149,6 +149,11 @@
   notify:
     - Firewall reload rules
 
+# following command on the server to allow apache to make outbound connections
+# reverse proxy to https will not work without this command
+- name: Allow apache to make outbound connections
+  command: /usr/sbin/setsebool -P httpd_can_network_connect 1
+
 
 
     
