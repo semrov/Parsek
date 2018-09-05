@@ -101,14 +101,20 @@
     common_name: '{{ ansible_eth1.ipv4.address }}'
     country_name: SI
     organization_name: Parsek
+
+#Generate certificate expire date: Today + 2 years
+- name: Generate certificate expire date in ASN.1 TIME format
+  command: "date +'%Y%m%d%H%M%SZ' -d '+730 days'"
+  register: expire_date
     
 #Generate certificate
-- name: Generate a Self Signed OpenSSL certificate
+- name: Generate a Self Signed OpenSSL certificate that expires in 2 years
   openssl_certificate:
     path: '{{ tls_dir }}/cert.crt'
     privatekey_path: '{{ tls_dir }}/privkey.pem'
     csr_path: '{{ tls_dir }}/csr.csr'
     provider: selfsigned
+    selfsigned_not_after: '{{ expire_date.stdout }}'
   notify:
     - Restart apache server
     
